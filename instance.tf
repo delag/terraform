@@ -24,7 +24,7 @@ access_config {
 }
 
 metadata {
-sshKeys = "dlg:${file("/home/dlg/.ssh/id_rsa.pub")}"
+sshKeys = "user:${file("/user/path/.ssh/id_rsa.pub")}"
 }
 }
 
