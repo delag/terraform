@@ -111,10 +111,7 @@ wait 1
 sudo mv temp $NGINX_SERVER_BLOCK
 wait 1
 rm temp
-
-
-
-
-
-
-
+sudo docker-compose up -d
+wait 5
+sudo systemctl restart nginx
+wait 5
