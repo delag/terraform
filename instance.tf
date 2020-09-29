@@ -23,7 +23,7 @@ resource "google_compute_instance" "web" {
   }
 
   metadata = {
-    sshKeys = "user:${file("/user/path/.ssh/id_rsa.pub")}"
+    sshKeys = "user:${file("/home/user/.ssh/id_rsa.pub")}"
   }
 }
 

@@ -31,7 +31,8 @@ services:
     ports:
       - "8000:80"
 EOF
-sudo cp -ia $NGINX_SERVER_BLOCK{,.orig}
+# Added below line for troubleshooting.
+#sudo cp -ia $NGINX_SERVER_BLOCK{,.orig}
 wait 1
 sudo cat >temp <<EOF
 user www-data;
@@ -111,7 +112,5 @@ wait 1
 sudo mv temp $NGINX_SERVER_BLOCK
 wait 1
 rm temp
-sudo docker-compose up -d
-wait 5
-sudo systemctl restart nginx
+sudo docker-compose up -d && sudo systemctl restart nginx
 wait 5
