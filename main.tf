@@ -11,11 +11,12 @@ provider "cloudflare" {
     api_key = "${var.cloudflare_token}"
 }
 
+# TO DO
 # Used to generate a random name for the GCP instance.
-resource "random_id" "instance_id" {
-  byte_length = 8
-}
-
+#resource "random_id" "instance_id" {
+#  byte_length = 8
+#}
+#
 # Specify the version of terraform this works with.
 terraform {
   required_version = ">= 0.12"
