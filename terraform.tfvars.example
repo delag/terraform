@@ -1,0 +1,12 @@
+# Rename me to terraform.tfvars
+cloudflare_zone = ""
+cloudflare_zone_id = ""
+cloudflare_account_id = ""
+cloudflare_email = ""
+cloudflare_token = ""
+gcp_project_id = ""
+labels     = {
+  "environment" = "test"
+  "team"        = "devops"
+  "application" = "webserver"
+}
