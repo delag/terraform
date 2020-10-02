@@ -25,7 +25,7 @@ resource "google_compute_instance" "web" {
   metadata_startup_script = data.template_file.webServer.rendered
 
   metadata = {
-    sshKeys = "user${file("/Users/user/.ssh/id_rsa.pub")}"
+    sshKeys = "dlg${file("/Users/cdlg/.ssh/id_rsa.pub")}"
   }
 }
 
@@ -35,6 +35,8 @@ data "template_file" "webServer" {
 
   vars = {
     web_zone = var.cloudflare_zone
+    cf_user  = var.cloudflare_email
+    cf_api   = var.cloudflare_token
   }
 }
 

@@ -5,6 +5,12 @@ provider "google" {
   region      = var.region
 }
 
+provider "cloudflare" {
+    version = "~> 2.0"
+    email   = "${var.cloudflare_email}"
+    api_key = "${var.cloudflare_token}"
+}
+
 # Used to generate a random name for the GCP instance.
 resource "random_id" "instance_id" {
   byte_length = 8
