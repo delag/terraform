@@ -1,31 +1,43 @@
-resource "random_id" "instance_id" {
-  byte_length = 8
+data "google_compute_image" "centos" {
+  family  = "centos-7"
+  project = "centos-cloud"
 }
 
 resource "google_compute_instance" "web" {
-  name         = "web-vm-${random_id.instance_id.hex}"
-  machine_type = "f1-micro"
-  zone         = "us-central1-a"
+  name         = var.name
+  machine_type = var.machine_type
+  zone         = var.zone
+  tags         = ["http-server", "ssh"]
 
   boot_disk {
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-1804-lts"
+      image = data.google_compute_image.centos.self_link
     }
   }
-
-  metadata_startup_script = file("kickstart.sh")
 
   network_interface {
     network = "default"
-
     access_config {
+      // Ephemeral IP
     }
   }
 
+  metadata_startup_script = data.template_file.webServer.rendered
+
   metadata = {
-    sshKeys = "user:${file("/home/user/.ssh/id_rsa.pub")}"
+    sshKeys = "user${file("/Users/user/.ssh/id_rsa.pub")}"
   }
 }
+
+## Renders the data value passed above in metadata_startup_script
+data "template_file" "webServer" {
+  template = "${file("${path.module}/template/install_server.tpl")}"
+
+  vars = {
+    web_zone = var.cloudflare_zone
+  }
+}
+
 
 resource "google_compute_firewall" "default" {
   name    = "nginx-firewall"
@@ -44,4 +56,3 @@ resource "google_compute_firewall" "default" {
 output "ip" {
   value = google_compute_instance.web.network_interface[0].access_config[0].nat_ip
 }
-
