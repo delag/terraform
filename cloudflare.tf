@@ -72,6 +72,55 @@ resource "cloudflare_page_rule" "ghost" {
     }
 }
 
+# WAF Rules
+# OWASP
+## Data object for package_id variable
+data "cloudflare_waf_packages" "owaspPackage" {
+    zone_id = var.cloudflare_zone_id
+    filter {
+        name = "OWASP ModSecurity Core Rule Set"
+    }
+}
+
+## Adjusting OWASP overall rulset
+resource "cloudflare_waf_package" "owasp" {
+    package_id = data.cloudflare_waf_packages.owaspPackage.packages.0.id
+    zone_id = var.cloudflare_zone_id
+    sensitivity = "medium"
+    action_mode = "simulate"
+}
+
+## Adjusting individual rule behavior 
+resource "cloudflare_waf_rule" "waf_rule_100000356" {
+    rule_id = "100000356"
+    zone_id = var.cloudflare_zone_id
+    mode = "off"
+}
+
+# Cloudflare Managed Rulesets
+## Data object for group_id variable
+data "cloudflare_waf_groups" "drupal" {
+    zone_id = var.cloudflare_zone_id
+    filter {
+        name = "Cloudflare Drupal"
+    }
+}
+
+## Adjusting rulesets to be on or off
+resource "cloudflare_waf_group" "drupal" {
+    group_id = data.cloudflare_waf_groups.drupal.groups.0.id
+    zone_id = var.cloudflare_zone_id
+    mode = "off"
+}
+
+## Adjusting individual rule behavior
+resource "cloudflare_waf_rule" "waf_rule_100000" {
+    rule_id = "100000"
+    zone_id = var.cloudflare_zone_id
+    mode = "simulate"
+}
+
+#####
 output "DNS" {
     value = "httpbin.${var.cloudflare_zone}"
 }
