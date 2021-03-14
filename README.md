@@ -1,6 +1,6 @@
 # terraform-gcp-centos (with Cloudflare!)
 
-Terraform all the things using terraform v0.12.x
+Terraform all the things using GCP and Cloudflare with some bash-fu
 
 A terraform setup to kick a `n1-standard-1` instance in GCP with Cloudflare features/services in front of it.
 
