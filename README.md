@@ -1,5 +1,4 @@
 # terraform-gcp-centos (with Cloudflare!)
-Last update: Oct 2020
 
 Terraform all the things using terraform v0.12.x
 
